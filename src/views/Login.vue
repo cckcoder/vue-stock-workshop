@@ -8,14 +8,19 @@
           </v-card-title>
         </v-img>
           <v-card-text>
-            <v-form>
+            <v-form @submit.prevent="submit">
               <!-- Username -->
-              <v-text-field name="username" label="Username" id="username">
+              <v-text-field
+                name="username"
+                v-model="account.username"
+                label="Username"
+                id="username">
               </v-text-field>
 
               <!-- Password -->
               <v-text-field
                 name="password"
+                v-model="account.password"
                 label="Password"
                 id="password"
                 :append-icon="isShowPassword ? 'visibility' : 'visibility_off'"
@@ -25,11 +30,11 @@
               >
 
               </v-text-field>
-
+              <span>{{ account }}</span>
               <!-- Button -->
               <v-row class="justify-space-between px-3 pt-5">
                 <v-btn @click.prevent="$router.push('/register')">Register</v-btn>
-                <v-btn color="success">Login</v-btn>
+                <v-btn type="submit" color="success">Login</v-btn>
               </v-row>
 
             </v-form>
@@ -44,7 +49,20 @@ export default {
   name: "Login",
   data() {
     return {
-      isShowPassword: false
+      isShowPassword: false,
+      account: {
+        username:"",
+        password: ""
+      }
+    }
+  },
+  methods: {
+    submit() {
+      this.$store.dispatch({
+        type: "doLogin",
+        username: this.account.username,
+        password: this.account.password
+      })
     }
   }
 

@@ -15,6 +15,7 @@
                 label="Username"
                 id="username"
                 v-model="account.username"
+                :rules="usernameRules"
                 >
               </v-text-field>
 
@@ -28,6 +29,7 @@
                 @click:append="isShowPassword = !isShowPassword"
                 :type="isShowPassword ? 'text' : 'password'"
                 counter
+                :rules="passwordRules"
               >
 
               </v-text-field>
@@ -53,7 +55,13 @@ export default {
       account: {
         username: "",
         password: ""
-      }
+      },
+      usernameRules: [ v1 => !!v1 || "Username is required" ],
+      passwordRules: [
+        v1 => !!v1 || "Password is required",
+        v2 => !!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v2) ||
+        'Minimum eight characters, at least one letter, one number and one special character:'
+      ]
     }
   },
   methods: {
